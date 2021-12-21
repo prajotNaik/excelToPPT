@@ -1,0 +1,212 @@
+Sub CreatePPTFromExcel()
+Dim xlApp As Object
+Dim xlWorkBook As Object
+Dim strTemp As String
+Dim strPath As String
+Dim strFileSpec As String
+Dim oSld As Slide
+Dim oPic As Shape
+Dim intI As Integer
+    Dim strWaterMark As String
+    Dim intShp As Integer
+
+Set xlApp = CreateObject("Excel.Application")
+
+xlApp.Visible = True
+Set xlWorkBook = xlApp.Workbooks.Open("C:\Users\Shraddha\Downloads\CPL\Courtyard cricket premier league 2022 - Fin.csv", False, True)
+strPath = "C:\Users\Shraddha\Downloads\CPL\Photo\"
+strWaterMark = "Courtyard CPL"
+
+
+MaxRows = 55
+RowCnt = 1
+'xlWorkBook.Sheets(1).Range("A8").Value = "Hello"
+For Each rw In xlWorkBook.Sheets(1).Rows
+On Error GoTo NextIteration
+Name = Trim(UCase(rw.Cells(2).Value))
+   Age = rw.Cells(3).Value
+   Flatno = rw.Cells(4).Value
+   building = rw.Cells(5).Value
+   bowling = rw.Cells(6).Value
+   batting = rw.Cells(7).Value
+   battingStyle = rw.Cells(8).Value
+   
+   If Name = "NAME" Then GoTo NextIteration
+
+   
+   strFileSpec = Name & ".*"
+   strTemp = Dir(strPath & strFileSpec)
+   
+   Debug.Print RowCnt, Name, Age, Flatno, building, bowling, batting, battingStyle
+   
+    
+    Set oSld = ActivePresentation.Slides.Add(ActivePresentation.Slides.Count + 1, ppLayoutBlank)
+    Set oPic = oSld.Shapes.AddPicture(FileName:=strPath & strTemp, _
+    LinkToFile:=msoFalse, _
+    SaveWithDocument:=msoTrue, _
+    Left:=100, _
+    Top:=100, _
+    Width:=200, _
+    Height:=200)
+   
+   
+   Set labelShape = ActivePresentation.Slides(ActivePresentation.Slides.Count).Shapes.AddLabel(Orientation:=msoTextOrientationHorizontal, _
+    Left:=100, Top:=20, Width:=500, Height:=100)
+       With labelShape
+        With .Fill
+            .BackColor.RGB = RGB(red:=&H20, green:=&H20, blue:=&HFF)
+            .Visible = msoTrue
+        End With
+        
+        .TextFrame2.AutoSize = msoAutoSizeShapeToFitText
+        .TextFrame2.HorizontalAnchor = msoAnchorCenter
+        
+        With .TextFrame2.TextRange
+            .Text = Name
+            .Font.Bold = msoTrue
+            .Font.Name = "Calibri"
+            .Font.Size = 36
+        End With
+    End With
+    
+   Set labelAge = ActivePresentation.Slides(ActivePresentation.Slides.Count).Shapes.AddLabel(Orientation:=msoTextOrientationHorizontal, _
+    Left:=300, Top:=100, Width:=400, Height:=100)
+       With labelAge
+        With .Fill
+            .BackColor.RGB = RGB(red:=&H20, green:=&HFF, blue:=&H20)
+            .Visible = msoTrue
+        End With
+        
+        .TextFrame2.AutoSize = msoAutoSizeShapeToFitText
+        .TextFrame2.HorizontalAnchor = msoAnchorCenter
+        
+        With .TextFrame2.TextRange
+            .Text = "Age :" & Age
+            .Font.Bold = msoTrue
+            .Font.Name = "Calibri"
+            .Font.Size = 20
+        End With
+    End With
+    
+  
+   Set labelFlatno = ActivePresentation.Slides(ActivePresentation.Slides.Count).Shapes.AddLabel(Orientation:=msoTextOrientationHorizontal, _
+    Left:=300, Top:=150, Width:=400, Height:=100)
+       With labelFlatno
+        With .Fill
+            .BackColor.RGB = RGB(red:=&H20, green:=&HFF, blue:=&H20)
+            .Visible = msoTrue
+        End With
+        
+        .TextFrame2.AutoSize = msoAutoSizeShapeToFitText
+        .TextFrame2.HorizontalAnchor = msoAnchorCenter
+        
+        With .TextFrame2.TextRange
+            .Text = "Flatno :" & Flatno
+            .Font.Bold = msoTrue
+            .Font.Name = "Calibri"
+            .Font.Size = 20
+        End With
+    End With
+   
+   Set labelbuilding = ActivePresentation.Slides(ActivePresentation.Slides.Count).Shapes.AddLabel(Orientation:=msoTextOrientationHorizontal, _
+    Left:=300, Top:=200, Width:=400, Height:=100)
+       With labelbuilding
+        With .Fill
+            .BackColor.RGB = RGB(red:=&H20, green:=&HFF, blue:=&H20)
+            .Visible = msoTrue
+        End With
+        
+        .TextFrame2.AutoSize = msoAutoSizeShapeToFitText
+        .TextFrame2.HorizontalAnchor = msoAnchorCenter
+        
+        With .TextFrame2.TextRange
+            .Text = "Building :" & building
+            .Font.Bold = msoTrue
+            .Font.Name = "Calibri"
+            .Font.Size = 20
+        End With
+    End With
+   
+   Set labelbowling = ActivePresentation.Slides(ActivePresentation.Slides.Count).Shapes.AddLabel(Orientation:=msoTextOrientationHorizontal, _
+    Left:=300, Top:=250, Width:=400, Height:=100)
+       With labelbowling
+        With .Fill
+            .BackColor.RGB = RGB(red:=&H20, green:=&HFF, blue:=&H20)
+            .Visible = msoTrue
+        End With
+        
+        .TextFrame2.AutoSize = msoAutoSizeShapeToFitText
+        .TextFrame2.HorizontalAnchor = msoAnchorCenter
+        
+        With .TextFrame2.TextRange
+            .Text = "Bowling Style:" & bowling
+            .Font.Bold = msoTrue
+            .Font.Name = "Calibri"
+            .Font.Size = 20
+        End With
+    End With
+   
+   Set labelbatting = ActivePresentation.Slides(ActivePresentation.Slides.Count).Shapes.AddLabel(Orientation:=msoTextOrientationHorizontal, _
+    Left:=300, Top:=250, Width:=400, Height:=100)
+       With labelbatting
+        With .Fill
+            .BackColor.RGB = RGB(red:=&H20, green:=&HFF, blue:=&H20)
+            .Visible = msoTrue
+        End With
+        
+        .TextFrame2.AutoSize = msoAutoSizeShapeToFitText
+        .TextFrame2.HorizontalAnchor = msoAnchorCenter
+        
+        With .TextFrame2.TextRange
+            .Text = "Batting Stance:" & batting
+            .Font.Bold = msoTrue
+            .Font.Name = "Calibri"
+            .Font.Size = 20
+        End With
+    End With
+   
+   Set labelbattingStyle = ActivePresentation.Slides(ActivePresentation.Slides.Count).Shapes.AddLabel(Orientation:=msoTextOrientationHorizontal, _
+    Left:=300, Top:=300, Width:=400, Height:=100)
+       With labelbattingStyle
+        With .Fill
+            .BackColor.RGB = RGB(red:=&H20, green:=&HFF, blue:=&H20)
+            .Visible = msoTrue
+        End With
+        
+        .TextFrame2.AutoSize = msoAutoSizeShapeToFitText
+        .TextFrame2.HorizontalAnchor = msoAnchorCenter
+        
+        With .TextFrame2.TextRange
+            .Text = "Batting Style:" & battingStyle
+            .Font.Bold = msoTrue
+            .Font.Name = "Calibri"
+            .Font.Size = 20
+        End With
+    End With
+   
+   strTemp = Dir
+ 
+NextIteration:
+   strTemp = Dir(strPath & strFileSpec)
+   RowCnt = RowCnt + 1
+   
+   If RowCnt >= MaxRows Then Exit For
+   
+   
+Next
+
+    With ActivePresentation.SlideMaster
+        .Shapes.AddLabel msoTextOrientationHorizontal, _
+            .Width - 100, .Height - 100, 100, 100
+        intShp = .Shapes.Count
+        .Shapes.Item(intShp).TextFrame.TextRange = strWaterMark
+        .Shapes.Item(intShp).Left = .Width - .Shapes.Item(intI).Width
+        .Shapes.Item(intShp).Top = .Height - .Shapes.Item(intI).Height
+    End With
+
+Set xlApp = Nothing
+Set xlWorkBook = Nothing
+
+
+End Sub
+
